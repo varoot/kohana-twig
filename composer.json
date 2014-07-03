@@ -1,0 +1,9 @@
+{
+    "name": "varoot/twig",
+    "type": "kohana-module",
+    "description": "Kohana 3.3 module for Twig",
+    "keywords": ["kohana", "twig", "view", "templating"],
+    "require": {
+        "twig/twig": "~1.15"
+    },
+}
