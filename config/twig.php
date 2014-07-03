@@ -7,7 +7,7 @@ return array(
 	 */
 	'loader' => array(
 		'extension' => 'twig',  // Extension for Twig files
-		'path'      => 'twigs', // Path within cascading filesystem for Twig files
+		'path'      => 'views', // Path within cascading filesystem for Twig files
 	),
 
 	/**
