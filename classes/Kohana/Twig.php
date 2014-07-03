@@ -29,8 +29,6 @@ class Kohana_Twig extends View {
 	 */
 	public static function init()
 	{
-		Twig_Autoloader::register();
-
 		$path = Kohana::$config->load('twig.environment.cache');
 		if ($path !== FALSE AND ! is_writable($path) AND ! self::_init_cache($path))
 		{
