@@ -9,6 +9,7 @@ class Kohana_Twig extends View {
 	 * Twig environment
 	 */
 	protected static $_environment = NULL;
+	protected static $_str_environment = NULL;
 
 	/**
 	 * Initialize the cache directory
@@ -55,10 +56,19 @@ class Kohana_Twig extends View {
 	 *
 	 * @return  Twig_Environment  Twig environment
 	 */
-	protected static function env()
+	protected static function env($str = FALSE)
 	{
 		$config = Kohana::$config->load('twig');
-		$loader = new Twig_Loader_CFS($config->get('loader'));
+
+		if ($str)
+		{
+			$loader = new Twig_Loader_String();
+		}
+		else
+		{
+			$loader = new Twig_Loader_CFS($config->get('loader'));
+		}
+
 		$env = new Twig_Environment($loader, $config->get('environment'));
 
 		foreach ($config->get('functions') as $key => $value)
@@ -81,13 +91,24 @@ class Kohana_Twig extends View {
 	 *
 	 * @return  Twig_Environment  Twig environment
 	 */
-	protected static function environment()
+	protected static function environment($str = FALSE)
 	{
-		if (static::$_environment === NULL)
+		if ($str)
 		{
-			static::$_environment = static::env();
+			if (static::$_str_environment === NULL)
+			{
+				static::$_str_environment = static::env(TRUE);
+			}
+			return static::$_str_environment;			
 		}
-		return static::$_environment;
+		else
+		{
+			if (static::$_environment === NULL)
+			{
+				static::$_environment = static::env();
+			}
+			return static::$_environment;			
+		}
 	}
 
 	/**
@@ -122,6 +143,17 @@ class Kohana_Twig extends View {
 		}
 
 		return static::environment()->render($this->_file, $this->_data);
+	}
+
+	public static function render_str($template)
+	{
+		// Bind global data to Twig environment.
+		foreach (static::$_global_data as $key => $value)
+		{
+			static::environment(TRUE)->addGlobal($key, $value);
+		}
+
+		return static::environment(TRUE)->render($template, $this->_data);
 	}
 
 } // End Twig
