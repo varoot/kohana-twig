@@ -145,7 +145,7 @@ class Kohana_Twig extends View {
 		return static::environment()->render($this->_file, $this->_data);
 	}
 
-	public static function render_str($template)
+	public static function render_str($template, array $data = NULL)
 	{
 		// Bind global data to Twig environment.
 		foreach (static::$_global_data as $key => $value)
@@ -153,7 +153,7 @@ class Kohana_Twig extends View {
 			static::environment(TRUE)->addGlobal($key, $value);
 		}
 
-		return static::environment(TRUE)->render($template, $this->_data);
+		return static::environment(TRUE)->render($template, $data);
 	}
 
 } // End Twig
